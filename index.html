@@ -1,0 +1,82 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Redux Explore</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+<!-- added store using cdn-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.1/redux.js"></script>
+
+</body>
+<script>
+
+  // Reducer
+  const counter = (state = 0, action) => {
+    switch (action.type) {
+      case 'INCREMENT':
+        return state + 1;
+      case 'DECREMENT':
+        return state - 1;
+      default:
+        return state;
+    }
+  }
+
+
+  // A single function from redux
+
+  // es6 destructuring syntax
+  const { createStore } = Redux;
+  // without destructuring
+  // var createStore = Redux.createStore;
+  // for npm packages or babel
+  // import { createStore } from 'Redux'
+
+
+  const store = createStore(counter);
+  // we are calling the createStore with the counter as reducer which manages the state updates
+
+/*
+  console.log(store.getState());
+  // we will get the initial state 0 by calling the getState() to retrieve the current state of the store
+
+  store.dispatch({type: 'INCREMENT'});
+  // most commonly used method to dispatch an action to change the state of the application.
+  console.log(store.getState());
+*/
+  const render = () => {
+    document.body.innerText = store.getState();
+  }
+  // a method to get the current state
+
+  store.subscribe(render);
+  // subscribed to get callback from store when action is dispatched
+  render();
+
+  document.addEventListener('click', () => {
+    store.dispatch({ type: 'INCREMENT'});
+    // dispatching increment action
+  })
+  // dispatch when clicked in the dom
+</script>
+</html>
